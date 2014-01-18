@@ -1,7 +1,9 @@
 (ns leiningen.version-spec
   (:refer-clojure :exclude (resolve))
   (:require [clojure.string :as str]
-            [clojure.core.strint :as strint]))
+            [clojure.core.strint :as strint]
+            [leiningen.core.main :as main]
+            [rewrite-clj.zip :as z]))
 
 (defn env-keyword? [x]
   {:post [(do (println "env-keyword?" x "=" %) true)]}
@@ -40,7 +42,20 @@
 (defn parse-version-spec [spec]
   (apply str (map resolve (#'strint/interpolate spec))))
 
+(defn new-project [project-zip new-version]
+  (-> project-zip
+      (z/find-value z/next 'defproject)
+      z/right ;; project name
+      z/right ;; version
+      (z/replace new-version)))
+
 (defn version-spec
-  "I don't do a lot."
+  "rewrite the project.clj, updating the version number according to the version spec"
   [project & args]
-  (println (parse-version-spec (:version-spec project))))
+  (let [project-path "project.clj"
+        new-version (parse-version-spec (:version-spec project))
+        project-zip (z/of-file project-path)
+        updated-proj (new-project project-zip new-version)]
+    (spit project-path (z/print-root updated-proj))
+    (println "updated")
+    (main/exit 0)))
