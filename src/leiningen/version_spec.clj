@@ -6,11 +6,9 @@
             [rewrite-clj.zip :as z]))
 
 (defn env-keyword? [x]
-  {:post [(do (println "env-keyword?" x "=" %) true)]}
   (and (keyword? x) (= "env" (namespace x))))
 
 (defn form? [x]
-  {:post [(do (println "form?" x "=" %) true)]}
   (and (list? x)
        (-> x first symbol?)))
 
@@ -18,7 +16,6 @@
   (-> x first namespace))
 
 (defn call-form [x]
-  {:post [(do (println "call-form" x "=" %) true)]}
   (let [v (first x)
         v-ns (symbol (namespace v))
         v-name (symbol (name v))]
