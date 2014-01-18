@@ -57,5 +57,5 @@
         project-zip (z/of-file project-path)
         updated-proj (new-project project-zip new-version)]
     (spit project-path (z/print-root updated-proj))
-    (println "updated")
+    (main/info "updated")
     (main/exit 0)))
