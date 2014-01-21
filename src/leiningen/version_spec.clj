@@ -28,7 +28,8 @@
   (let [var-name (str/upper-case (name x))
         val (System/getenv var-name)]
     (when-not val
-      (leiningen.core.main/abort (str "env var " var-name " not found")))))
+      (leiningen.core.main/abort (str "env var " var-name " not found")))
+    val))
 
 (defn resolve [x]
   (cond
