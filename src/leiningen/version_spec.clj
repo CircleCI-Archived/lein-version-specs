@@ -54,6 +54,6 @@
         new-version (parse-version-spec (:version-spec project))
         project-zip (z/of-file project-path)
         updated-proj (new-project project-zip new-version)]
-    (spit project-path (z/print-root updated-proj))
-    (main/info "updated")
+    (spit project-path (with-out-str (z/print-root updated-proj)))
+    (main/info "set version to" new-version)
     (main/exit 0)))
