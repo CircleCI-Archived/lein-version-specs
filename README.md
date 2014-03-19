@@ -4,7 +4,7 @@ A Leiningen plugin for setting (rewriting) the project.clj version according to 
 
 ## Usage
 
-Put `[lein-version-spec "0.0.4]` into the `:plugins` vector of your project.clj.
+Put `[lein-version-spec "0.0.4"]` into the `:plugins` vector of your project.clj.
 
 Add a `:version-spec "0.1.~{:env/circle_build_num}"` to your project.clj. Then run
 
